@@ -1,29 +1,43 @@
 const prompt = require("prompt-sync")();
 
-const Controlador = require("./Sistema");
-const RegistroConsumo = require("./RegistrarConsumo");
+const Controlador = require("./Controlador");
+const RegistroConsumo = require("./RegistroConsumo");
 
-const novoPredio = new Controlador();
+const sistema = new Controlador();
 
-const id = Number(prompt("ID do prédio: "));
-const nome = prompt("Nome do prédio: ");
+console.log("=== Cadastro de Prédio ===");
+
+const id = Number(prompt("ID: "));
+const nome = prompt("Nome: ");
 const localizacao = prompt("Localização: ");
 const tipo = prompt("Tipo: ");
 const limite = Number(prompt("Limite máximo: "));
 
-console.log(
-    novoPredio.adicionarPredio(id, nome, localizacao, tipo, limite)
-); 
-novoPredio.alerta();
+console.log(sistema.adicionarPredio(id, nome, localizacao, tipo, limite));
 
-console.log("==================");
+console.log("\n=== Registro de Consumo ===");
 
-novoPredio.gerarRelatorio();
+const idPredio = Number(prompt("ID do prédio: "));
+const nomeRegistro = prompt("Nome do registro: ");
+const valor = Number(prompt("Valor do consumo: "));
+const data = prompt("Data: ");
 
-console.log("==================");
+try {
+    const consumo = new RegistroConsumo(nomeRegistro, valor, data);
+    sistema.registrarConsumo(idPredio, consumo);
+} catch (erro) {
+    console.log(erro.message);
+}
 
-novoPredio.consumoPorTipo("Instituição");
+console.log("\n=== ALERTA ===");
+sistema.alerta();
 
-console.log("==================");
+console.log("\n=== RELATÓRIO ===");
+sistema.gerarRelatorio();
 
-novoPredio.historicoOperacoes();
+console.log("\n=== CONSUMO POR TIPO ===");
+const tipoBusca = prompt("Digite o tipo: ");
+sistema.consumoPorTipo(tipoBusca);
+
+console.log("\n=== HISTÓRICO ===");
+sistema.historicoOperacoes();
