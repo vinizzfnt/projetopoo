@@ -85,13 +85,35 @@ class Sistema {
 
     }
 
-    gerarRelatorio() {
+   gerarRelatorio() {
 
-        for (let i = 0; i < this.#predios.length; i++) {
-            console.log(this.#predios[i].consumo);
-        }
-
+    if (this.#predios.length === 0) {
+        console.log("Nenhum prédio cadastrado.");
+        return;
     }
+
+    for (let i = 0; i < this.#predios.length; i++) {
+
+        console.log(`\nPrédio: ${this.#predios[i].nome}`);
+        console.log(`ID: ${this.#predios[i].id}`);
+        console.log(`Localização: ${this.#predios[i].localizacao}`);
+        console.log(`Tipo: ${this.#predios[i].tipo}`);
+        console.log(`Limite máximo: ${this.#predios[i].limiteMaximo}`);
+        console.log(`Consumo total: ${this.#predios[i].obterSomaConsumo()}`);
+
+        console.log("Registros de consumo:");
+
+        if (this.#predios[i].consumo.length === 0) {
+            console.log("Nenhum consumo registrado.");
+        } else {
+            for (let j = 0; j < this.#predios[i].consumo.length; j++) {
+                console.log(
+                    `- ${this.#predios[i].consumo[j].nome} | Valor: ${this.#predios[i].consumo[j].valor} | Data: ${this.#predios[i].consumo[j].data}`
+                );
+            }
+        }
+    }
+}
 
     consumoPorTipo(tipo) {
 
